@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PasTeamo — Brain Gains Only</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#150A28;
+    --panel:#1F1140;
+    --panel-2:#2A1856;
+    --white:#FFFDF6;
+    --ink:#120820;
+    --pink:#FF3EA5;
+    --lime:#C6FF4D;
+    --cyan:#3EE8FF;
+    --orange:#FF8A3D;
+    --purple:#B14CFF;
+    --yellow:#FFD93E;
+    --muted:#B9AEDC;
+    --line: rgba(255,255,255,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(900px 500px at 8% -5%, rgba(255,62,165,0.25), transparent 60%),
+      radial-gradient(800px 500px at 100% 0%, rgba(62,232,255,0.18), transparent 55%),
+      radial-gradient(700px 500px at 50% 100%, rgba(177,76,255,0.2), transparent 60%),
+      var(--bg);
+    color:var(--white);
+    font-family:'Space Grotesk', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--lime); color:var(--ink);}
+  :focus-visible{outline:3px solid var(--lime); outline-offset:2px;}
+
+  .wrap{max-width:1040px; margin:0 auto; padding:26px 18px 90px;}
+
+  header{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:14px;}
+  .mark{
+    width:56px; height:56px; border-radius:50%;
+    background: conic-gradient(from 220deg, var(--pink), var(--orange), var(--lime), var(--cyan), var(--pink));
+    display:flex; align-items:center; justify-content:center;
+    border:3px solid var(--ink);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+    flex:none;
+    transform:rotate(-6deg);
+  }
+  .mark span{font-family:'Fredoka', sans-serif; font-weight:700; font-size:19px; color:var(--ink);}
+  .brand h1{
+    font-family:'Fredoka', sans-serif; font-weight:700; font-size:clamp(30px,6vw,42px);
+    margin:0; letter-spacing:-0.01em;
+    background:linear-gradient(90deg, var(--lime), var(--cyan) 45%, var(--pink) 90%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .brand p{margin:2px 0 0; color:var(--muted); font-size:13.5px; letter-spacing:0.01em; font-weight:500;}
+
+  .stat-strip{display:flex; gap:10px;}
+  .stat{
+    background:var(--panel); border:2px solid var(--ink); border-radius:14px;
+    padding:8px 14px; min-width:80px; text-align:center;
+    box-shadow:3px 3px 0 rgba(0,0,0,0.35);
+  }
+  .stat b{display:block; font-family:'IBM Plex Mono', monospace; font-size:20px; color:var(--lime);}
+  .stat small{color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:0.08em;}
+
+  .perf{
+    height:20px; margin:26px 0 6px;
+    background-image: radial-gradient(circle at center, var(--pink) 0 3px, transparent 3.5px),
+                       radial-gradient(circle at center, var(--cyan) 0 3px, transparent 3.5px),
+                       radial-gradient(circle at center, var(--lime) 0 3px, transparent 3.5px),
+                       radial-gradient(circle at center, var(--orange) 0 3px, transparent 3.5px);
+    background-size: 88px 20px;
+    background-position: 0 center, 22px center, 44px center, 66px center;
+    background-repeat: repeat-x;
+    opacity:0.85;
+  }
+
+  .tiers{display:flex; gap:12px; flex-wrap:wrap; margin:18px 0 6px;}
+  .tier-btn{
+    flex:1 1 220px; text-align:left; cursor:pointer;
+    background:var(--accentSoft, var(--panel)); border:3px solid var(--ink); border-radius:16px;
+    padding:14px 16px; color:var(--ink); position:relative; overflow:hidden;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:4px 4px 0 rgba(0,0,0,0.4);
+  }
+  .tier-btn:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 rgba(0,0,0,0.4);}
+  .tier-btn.active{outline:3px solid var(--white);}
+  .tier-btn .top-row{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .tier-btn .name{font-family:'Fredoka', sans-serif; font-weight:600; font-size:19px;}
+  .tier-btn .price{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink); background:rgba(255,255,255,0.55); border:2px solid var(--ink); border-radius:20px; padding:3px 9px; white-space:nowrap; text-align:right; line-height:1.5;}
+  .tier-btn .who{color:rgba(18,8,32,0.75); font-size:12.5px; margin-top:6px; font-weight:500;}
+  .tier-btn .bar{height:5px; border-radius:4px; margin-top:10px; background:var(--ink); opacity:.18;}
+
+  .wod{
+    margin-top:22px; border-radius:20px; padding:22px 24px;
+    background:linear-gradient(135deg, var(--yellow), var(--orange));
+    color:var(--ink); position:relative; overflow:hidden;
+    border:3px solid var(--ink); box-shadow:5px 5px 0 rgba(0,0,0,0.4);
+  }
+  .wod-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
+  .wod-label{font-size:11px; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink); font-weight:700; background:rgba(255,255,255,0.5); display:inline-block; padding:3px 9px; border-radius:20px;}
+  .wod h2{font-family:'Fredoka', sans-serif; font-weight:700; font-size:clamp(26px,4vw,34px); margin:8px 0 0; letter-spacing:-0.01em;}
+  .wod .ipa{font-family:'IBM Plex Mono', monospace; color:#5a3a12; font-size:13px; margin-top:2px;}
+  .wod .meaning{margin-top:12px; font-size:15px; line-height:1.55; font-weight:500;}
+  .wod .example{margin-top:8px; font-size:13.5px; font-style:italic; color:#5a3a12;}
+  .wod-tags{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;}
+  .wod-tags span{font-size:11.5px; padding:4px 10px; border-radius:20px; background:rgba(255,255,255,0.5); font-family:'IBM Plex Mono', monospace; font-weight:600;}
+  .shuffle-btn{
+    border:2px solid var(--ink); background:var(--white); color:var(--ink);
+    border-radius:20px; padding:8px 16px; font-family:'Space Grotesk'; font-weight:700; font-size:12.5px; cursor:pointer;
+    box-shadow:3px 3px 0 rgba(0,0,0,0.35);
+  }
+  .shuffle-btn:active{transform:translate(2px,2px); box-shadow:none;}
+
+  .section-label{margin:34px 0 14px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .section-label h3{font-family:'Fredoka', sans-serif; font-weight:600; font-size:22px; margin:0;}
+  .section-label .sub{color:var(--muted); font-size:12.5px;}
+
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;}
+  @media(max-width:760px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:480px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--white); border:3px solid var(--ink); border-radius:18px;
+    padding:18px; cursor:pointer; text-align:left; color:var(--ink);
+    display:flex; flex-direction:column; gap:10px; min-height:155px;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:5px 5px 0 var(--cardAccent, var(--pink));
+  }
+  .card:nth-child(6n+1){transform:rotate(-1.4deg);}
+  .card:nth-child(6n+2){transform:rotate(1.1deg);}
+  .card:nth-child(6n+3){transform:rotate(-0.7deg);}
+  .card:nth-child(6n+4){transform:rotate(1.4deg);}
+  .card:nth-child(6n+5){transform:rotate(-1deg);}
+  .card:nth-child(6n+6){transform:rotate(0.8deg);}
+  .card:hover{transform:translate(-3px,-3px) rotate(0deg); box-shadow:7px 7px 0 var(--cardAccent, var(--pink));}
+  .badge{
+    width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:13px; color:var(--ink);
+    background:var(--cardAccent, var(--lime)); border:2.5px solid var(--ink); transform:rotate(-4deg);
+  }
+  .card h4{font-family:'Fredoka', sans-serif; font-size:17.5px; margin:0; font-weight:600;}
+  .card p{margin:0; font-size:12.5px; color:#4a3f66; line-height:1.4; font-weight:500;}
+  .card .go{margin-top:auto; font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:#8a7ab0; font-weight:700;}
+
+  footer{margin-top:54px; text-align:center; color:var(--muted); font-size:12px;}
+  footer .fname{font-family:'Fredoka', sans-serif; color:var(--white); font-size:16px; font-weight:600;}
+
+  .overlay{
+    position:fixed; inset:0; background:rgba(10,4,20,0.78); backdrop-filter:blur(3px);
+    display:none; align-items:flex-start; justify-content:center; padding:24px 14px; overflow-y:auto; z-index:50;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--white); color:var(--ink); border-radius:22px; max-width:640px; width:100%;
+    padding:24px; margin-top:22px; position:relative; border:3px solid var(--ink);
+    box-shadow:8px 8px 0 rgba(0,0,0,0.4);
+  }
+  .modal-close{
+    position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:50%;
+    border:2px solid var(--ink); background:var(--yellow); cursor:pointer; font-size:15px; color:var(--ink); font-weight:700;
+  }
+  .modal h2{font-family:'Fredoka', sans-serif; margin:0 0 4px; font-size:23px; font-weight:600;}
+  .modal .lvl-chip{
+    display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:11px; padding:4px 10px;
+    border-radius:20px; background:var(--lime); border:2px solid var(--ink); margin-bottom:14px; font-weight:600;
+  }
+  .modal-body{margin-top:6px;}
+  .btn{
+    font-family:'Space Grotesk'; font-weight:700; font-size:13.5px; cursor:pointer;
+    border:2.5px solid var(--ink); border-radius:20px; padding:10px 18px; background:var(--pink); color:var(--ink);
+    box-shadow:3px 3px 0 rgba(0,0,0,0.4);
+  }
+  .btn:active{transform:translate(2px,2px); box-shadow:none;}
+  .btn.secondary{background:var(--cyan);}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+  .row-actions{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center;}
+  .feedback{font-size:13.5px; margin-top:10px; min-height:18px; font-weight:700;}
+  .feedback.good{color:#1f7a3d;}
+  .feedback.bad{color:#c23b1f;}
+
+  .ws-grid{display:grid; gap:3px; user-select:none; margin-top:10px; touch-action:none;}
+  .ws-cell{
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace;
+    background:#f4f1ff; border:1.5px solid #dcd6f5; border-radius:6px; aspect-ratio:1; font-size:14px; cursor:pointer; font-weight:600;
+  }
+  .ws-cell.sel{background:var(--yellow);}
+  .ws-cell.found{background:var(--lime); border-color:var(--ink);}
+  .ws-words{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+  .ws-words span{font-size:12px; padding:4px 10px; border-radius:20px; background:#f0ecff; border:1.5px solid #d8d0f5; font-family:'IBM Plex Mono', monospace; font-weight:600;}
+  .ws-words span.done{background:var(--lime); border-color:var(--ink); text-decoration:line-through;}
+
+  .gf-row{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:14px;}
+  .gf-box{
+    width:52px; height:52px; border-radius:12px; background:var(--cyan); border:2.5px solid var(--ink); display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:18px; font-weight:700;
+  }
+  .gf-op{
+    width:52px; height:52px; border-radius:12px; font-family:'IBM Plex Mono', monospace; font-size:16px; font-weight:700;
+    border:2px solid var(--ink); background:#fff; text-align:center;
+  }
+  .gf-target{font-family:'Fredoka', sans-serif; font-weight:600; font-size:17px; margin-left:6px;}
+
+  .su-grid{display:grid; gap:3px; margin-top:12px; max-width:340px;}
+  .su-cell{
+    aspect-ratio:1; background:#fff; border:1.5px solid #dcd6f5; text-align:center; font-family:'IBM Plex Mono', monospace;
+    font-size:15px; font-weight:700; color:var(--ink); border-radius:5px;
+  }
+  .su-cell.given{background:#eee7ff; color:#6a5c9a;}
+  .su-cell.wrong{background:#ffd2c4;}
+  .su-cell.right{background:#cdf3d6;}
+
+  .q-text{font-size:16px; line-height:1.5; margin:14px 0; font-weight:700; font-family:'Fredoka', sans-serif;}
+  .opt-list{list-style:none; padding:0; margin:0 0 16px;}
+  .opt-list li{
+    padding:10px 14px; margin-bottom:6px; border-radius:12px;
+    border:2px solid #e2ddf5; background:#f8f6ff; font-size:14px; color:#3a3160; font-weight:500;
+  }
+  .opt-list li b{color:var(--ink); margin-right:6px; font-family:'IBM Plex Mono', monospace;}
+  .explain{font-size:13px; color:#5a4c39; margin-top:10px; line-height:1.5;}
+  .qmeta{font-size:12px; color:#8a7ab0; margin-top:4px; font-weight:600;}
+
+  .answer-wrap{margin-top:16px;}
+  .answer-hint{font-size:12px; color:#8a7ab0; margin-bottom:8px; font-weight:600;}
+  .answer-card{
+    display:inline-block; cursor:pointer; padding:14px 18px; border-radius:14px;
+    background:var(--purple); color:#fff; font-family:'Fredoka', sans-serif; font-weight:600; font-size:15px;
+    border:2.5px solid var(--ink);
+    transform:rotate(180deg); filter:blur(7px); opacity:.9; transition:transform .4s ease, filter .4s ease, opacity .3s ease;
+    user-select:none;
+  }
+  .answer-card.shown{transform:rotate(0deg); filter:blur(0); opacity:1; cursor:default;}
+  .answer-card .peek{font-size:10.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--yellow); display:block; margin-bottom:4px; font-family:'Space Grotesk';}
+  .self-grade{display:none; gap:10px; margin-top:14px;}
+  .self-grade.show{display:flex;}
+  .grade-btn{
+    flex:1; padding:11px; border-radius:12px; border:2px solid var(--ink); background:#fff;
+    cursor:pointer; font-family:'Space Grotesk'; font-weight:700; font-size:13.5px;
+  }
+  .grade-btn.hit{background:var(--lime);}
+  .grade-btn:disabled{opacity:.5; cursor:not-allowed;}
+
+  .fb-meta{display:flex; gap:14px; align-items:center; margin:12px 0; flex-wrap:wrap;}
+  .fb-chip{font-family:'IBM Plex Mono', monospace; font-size:12px; background:#f0ecff; border:2px solid var(--ink); border-radius:20px; padding:5px 12px; font-weight:700;}
+  .fb-grid{display:grid; gap:10px; margin-top:6px; max-width:300px;}
+  .fb-tile{
+    aspect-ratio:1; border-radius:14px; border:3px solid var(--ink); cursor:pointer;
+    opacity:0.55; transition:opacity .12s ease, transform .1s ease;
+  }
+  .fb-tile.lit{opacity:1; transform:scale(0.94);}
+  .fb-grid.locked .fb-tile{cursor:not-allowed;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="mark"><span>PT</span></div>
+      <div>
+        <h1>PasTeamo</h1>
+        <p>daily brain gains, zero cap 🧠✨</p>
+      </div>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><b id="statScore">0</b><small>Points</small></div>
+      <div class="stat"><b id="statStreak">0</b><small>Day streak</small></div>
+    </div>
+  </header>
+
+  <div class="perf"></div>
+
+  <div class="tiers" id="tiers"></div>
+
+  <div class="wod" id="wodCard"></div>
+
+  <div class="section-label">
+    <h3>Today's line-up 🎯</h3>
+    <span class="sub" id="lineupSub">Difficulty matches your selected level</span>
+  </div>
+
+  <div class="grid" id="gameGrid"></div>
+
+  <footer>
+    <div class="fname">PasTeamo</div>
+    pick your pace, protect the streak. new puzzles, word & trivia daily 🔥
+    <div style="margin-top:10px; font-size:11px; opacity:.75;">© 2026 WJSACLH · PasTeamo · All Rights Reserved · Zero Ads · Built with Purpose</div>
+  </footer>
+</div>
+
+<button id="coachBtn" title="Coach tips" style="position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:var(--yellow);border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,0.4);font-size:24px;cursor:pointer;z-index:40;">🤖</button>
+<div id="coachCard" style="display:none;position:fixed;bottom:88px;right:22px;max-width:260px;background:var(--white);color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:14px 16px;box-shadow:6px 6px 0 rgba(0,0,0,0.4);z-index:41;font-size:13px;line-height:1.5;">
+  <div style="font-family:'Fredoka',sans-serif;font-weight:600;margin-bottom:6px;">Coach tip</div>
+  <div id="coachTipText"></div>
+  <div style="font-size:10.5px;color:#8a7ab0;margin-top:8px;">Static tips for now — wiring a live AI coach safely needs a small server-side proxy so the API key isn't exposed in the page.</div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="lvl-chip" id="modalLvlChip"></div>
+    <h2 id="modalTitle"></h2>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ---------------- Profile / persistence ---------------- */
+const DEFAULT_PROFILE = { score:0, streak:0, lastActive:null, level:'beginner', wordDate:null, wordIndex:0, unlocked:{} };
+let profile = {...DEFAULT_PROFILE};
+
+async function loadProfile(){
+  try{
+    const raw = localStorage.getItem('pasteamo:profile');
+    if(raw) profile = {...DEFAULT_PROFILE, ...JSON.parse(raw)};
+  }catch(e){ /* no saved profile yet */ }
+  applyStreakCheck();
+  renderStats();
+  renderTiers();
+}
+async function saveProfile(){
+  try{ localStorage.setItem('pasteamo:profile', JSON.stringify(profile)); }catch(e){ console.error(e); }
+}
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function applyStreakCheck(){
+  const t = todayStr();
+  if(profile.lastActive === t) return;
+  if(profile.lastActive){
+    const prev = new Date(profile.lastActive);
+    const diffDays = Math.round((new Date(t) - prev)/86400000);
+    profile.streak = diffDays === 1 ? profile.streak : 0;
+  }
+}
+function markActiveToday(){
+  const t = todayStr();
+  if(profile.lastActive !== t){
+    profile.streak += 1;
+    profile.lastActive = t;
+  }
+}
+function addScore(points){
+  markActiveToday();
+  profile.score += points;
+  renderStats();
+  saveProfile();
+}
+function renderStats(){
+  document.getElementById('statScore').textContent = profile.score;
+  document.getElementById('statStreak').textContent = profile.streak;
+}
+
+/* ---------------- Day helpers (drive ALL daily rotation) ---------------- */
+function dayNumber(){
+  const start = new Date('2026-01-01');
+  return Math.floor((new Date(todayStr()) - start)/86400000);
+}
+function dayIndexFor(len){
+  const d = dayNumber();
+  return ((d % len) + len) % len;
+}
+
+/* ---------------- Levels / tiers (with global + local pricing + paywall) ---------------- */
+const LEVELS = [
+  { id:'beginner', name:'Spark 🌱', who:'Young minds & newcomers', usd:'Free', inr:'Free', color:'var(--lime)', gumroad:'', free:true },
+  { id:'intermediate', name:'Focus ⚡', who:'Everyday sharpening', usd:'$2.99/mo', inr:'₹249/mo', color:'var(--cyan)', gumroad:'https://wjsaclhstudio.gumroad.com/l/REPLACE_ME' },
+  { id:'advanced', name:'Sage 🧠', who:'Veteran solvers & seniors', usd:'$4.99/mo', inr:'₹399/mo', color:'var(--pink)', gumroad:'https://wjsaclhstudio.gumroad.com/l/REPLACE_ME' },
+];
+function renderTiers(){
+  const el = document.getElementById('tiers');
+  el.innerHTML = '';
+  LEVELS.forEach(lv=>{
+    const div = document.createElement('div');
+    div.className = 'tier-btn' + (profile.level===lv.id ? ' active':'');
+    div.style.setProperty('--accentSoft', lv.color);
+    const locked = !lv.free && !profile.unlocked[lv.id];
+    div.innerHTML = `
+      <div class="top-row">
+        <span class="name">${lv.name}${locked ? ' 🔒' : ''}</span>
+        <span class="price">🌍 ${lv.usd}<br>🇮🇳 ${lv.inr}</span>
+      </div>
+      <div class="who">${lv.who}</div>
+      <div class="bar"></div>`;
+    div.onclick = ()=>{
+      if(locked){ openPaywall(lv); return; }
+      profile.level = lv.id; saveProfile(); renderTiers(); renderWordOfDay();
+      document.getElementById('lineupSub').textContent = `Difficulty set to ${lv.name}`;
+    };
+    el.appendChild(div);
+  });
+}
+
+/* ---------------- Paywall (WJSACLH GumMaster standard: Global Gumroad / Local UPI + real PIN entry) ---------------- */
+const MASTER_PIN = '2026';
+function openPaywall(lv){
+  document.getElementById('modalTitle').textContent = `Unlock ${lv.name}`;
+  document.getElementById('modalLvlChip').textContent = 'Get access';
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    <p>Two ways to unlock — pick whichever's easier for you.</p>
+    <div class="row-actions" style="margin-top:4px;">
+      <button class="btn" id="pwGlobalTab">🌍 Global (Gumroad)</button>
+      <button class="btn secondary" id="pwLocalTab">🇮🇳 India (UPI)</button>
+    </div>
+    <div id="pwPane" style="margin-top:16px;"></div>
+    <div id="pwPinBlock" style="margin-top:18px; padding-top:16px; border-top:2px dashed #e2ddf5;">
+      <div class="answer-hint" style="margin-bottom:8px;">🔒 Enter your PIN to unlock</div>
+      <div class="row-actions" style="margin-top:0;">
+        <input id="pwPinInput" maxlength="6" inputmode="numeric" placeholder="6-digit PIN"
+          style="flex:1; min-width:140px; padding:11px 14px; border-radius:12px; border:2px solid var(--ink); font-family:'IBM Plex Mono',monospace; font-size:15px; letter-spacing:2px;">
+        <button class="btn" id="pwUnlockBtn">Unlock</button>
+      </div>
+      <div class="feedback" id="pwFeedback"></div>
+    </div>
+  `;
+  let issuedPin = null;
+  function showGlobal(){
+    issuedPin = null;
+    document.getElementById('pwPane').innerHTML = `
+      <p>Pay <b>${lv.usd}</b> on Gumroad — your receipt/download page shows your PIN. (Testing? Master PIN works too.)</p>
+      <div class="row-actions">
+        <a class="btn" href="${lv.gumroad}" target="_blank" rel="noopener">Pay on Gumroad ↗</a>
+      </div>
+    `;
+  }
+  function showLocal(){
+    document.getElementById('pwPane').innerHTML = `
+      <p>Scan to pay <b>${lv.inr}</b> via UPI, then tap "I Have Paid" to get your PIN.</p>
+      <div style="width:150px;height:150px;border:2.5px dashed var(--ink);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;color:#8a7ab0;font-family:'IBM Plex Mono',monospace;padding:8px;">Add your UPI QR image here</div>
+      <div class="row-actions">
+        <button class="btn" id="pwPaidBtn">I Have Paid</button>
+      </div>
+      <div class="feedback" id="pwLocalFeedback"></div>
+    `;
+    document.getElementById('pwPaidBtn').onclick = (e)=>{
+      e.target.disabled = true; e.target.textContent = 'Confirming…';
+      const fb = document.getElementById('pwLocalFeedback');
+      fb.textContent = 'Hang tight…'; fb.className = 'feedback';
+      setTimeout(()=>{
+        issuedPin = String(crypto.getRandomValues(new Uint32Array(1))[0] % 900000 + 100000);
+        fb.textContent = `Your PIN is ${issuedPin} — type it below to unlock.`;
+        fb.className = 'feedback good';
+      }, 8000);
+    };
+  }
+  document.getElementById('pwGlobalTab').onclick = showGlobal;
+  document.getElementById('pwLocalTab').onclick = showLocal;
+  document.getElementById('pwUnlockBtn').onclick = ()=>{
+    const entered = document.getElementById('pwPinInput').value.trim();
+    const fb = document.getElementById('pwFeedback');
+    if(entered === MASTER_PIN || (issuedPin && entered === issuedPin)){
+      fb.textContent = 'PIN correct — unlocking!'; fb.className = 'feedback good';
+      unlockTier(lv);
+    } else {
+      fb.textContent = 'That PIN doesn\'t match. Double-check and try again.'; fb.className = 'feedback bad';
+    }
+  };
+  showGlobal();
+  overlay.classList.add('open');
+}
+function unlockTier(lv){
+  profile.unlocked[lv.id] = true;
+  profile.level = lv.id;
+  saveProfile();
+  renderTiers();
+  renderWordOfDay();
+  setTimeout(closeModal, 900);
+}
+
+/* ---------------- Word of the day ---------------- */
+const WORDS = [
+  {word:'Perspicacious', ipa:'/ˌpɜː.spɪˈkeɪ.ʃəs/', pos:'adjective', meaning:'Having a sharp understanding and the ability to notice or grasp things quickly.', example:'Her perspicacious questions impressed the judges.', syn:'Insightful', ant:'Ignorant'},
+  {word:'Verdant', ipa:'/ˈvɜː.dənt/', pos:'adjective', meaning:'Green with grass or other lush vegetation.', example:'Ireland is famous for its verdant countryside.', syn:'Lush', ant:'Barren'},
+  {word:'Methodical', ipa:'/məˈθɒd.ɪ.kəl/', pos:'adjective', meaning:'Done according to a systematic or orderly way of thinking or acting.', example:'Michelangelo was known for his methodical way of painting.', syn:'Systematic', ant:'Chaotic'},
+  {word:'Angst', ipa:'/æŋst/', pos:'noun', meaning:'A strong feeling of anxiety, worry, or insecurity.', example:'A student poorly prepared for an exam may suffer severe angst.', syn:'Unease', ant:'Calm'},
+  {word:'Ebullient', ipa:'/ɪˈbʌl.jənt/', pos:'adjective', meaning:'Cheerful and full of energy.', example:'The crowd was ebullient after the last-minute win.', syn:'Buoyant', ant:'Despondent'},
+  {word:'Taciturn', ipa:'/ˈtæs.ɪ.tɜːn/', pos:'adjective', meaning:'Saying very little; reserved in speech.', example:'He grew more taciturn as the meeting dragged on.', syn:'Reticent', ant:'Talkative'},
+  {word:'Ubiquitous', ipa:'/juːˈbɪk.wɪ.təs/', pos:'adjective', meaning:'Present, appearing, or found everywhere.', example:'Smartphones have become ubiquitous in daily life.', syn:'Omnipresent', ant:'Rare'},
+];
+function renderWordOfDay(useIndex){
+  const idx = typeof useIndex === 'number' ? useIndex : dayIndexFor(WORDS.length);
+  profile.wordIndex = idx;
+  const w = WORDS[idx];
+  document.getElementById('wodCard').innerHTML = `
+    <div class="wod-top">
+      <div>
+        <div class="wod-label">✨ Word of the day</div>
+        <h2>${w.word}</h2>
+        <div class="ipa">${w.ipa} · ${w.pos}</div>
+      </div>
+      <button class="shuffle-btn" id="shuffleWord">Shuffle ↻</button>
+    </div>
+    <div class="meaning">${w.meaning}</div>
+    <div class="example">"${w.example}"</div>
+    <div class="wod-tags"><span>Synonym: ${w.syn}</span><span>Antonym: ${w.ant}</span></div>
+  `;
+  document.getElementById('shuffleWord').onclick = ()=>{
+    let next = Math.floor(Math.random()*WORDS.length);
+    if(next === idx) next = (next+1) % WORDS.length;
+    renderWordOfDay(next);
+  };
+}
+
+/* ---------------- Game catalogue ---------------- */
+const GAMES = [
+  {id:'wordsearch', badge:'WS', name:'Word Scape', desc:'Hunt hidden words in a letter grid — any direction counts.', accent:'var(--lime)'},
+  {id:'gofigure', badge:'GF', name:'Go Figure', desc:'Slot the operators between numbers to hit the target.', accent:'var(--cyan)'},
+  {id:'sudoku', badge:'SU', name:'Mini Sudoku', desc:'Fill the grid — no repeats in any row, column or block.', accent:'var(--pink)'},
+  {id:'idiom', badge:'ID', name:'Idiom IQ', desc:'Do you know what these well-known phrases really mean?', accent:'var(--orange)'},
+  {id:'factfaux', badge:'FF', name:'Facts & a Faux', desc:'Three true, one fake — can you spot the impostor?', accent:'var(--yellow)'},
+  {id:'riddle', badge:'RD', name:'Riddleculous', desc:'A riddle a day keeps boredom away — can you crack it?', accent:'var(--purple)'},
+  {id:'flashback', badge:'FB', name:'Flashback', desc:'Watch the pattern flash, then repeat it before it slips your mind.', accent:'var(--cyan)'},
+  {id:'emoji', badge:'ED', name:'Emoji Decode', desc:'Crack the phrase hidden inside a string of emoji.', accent:'var(--pink)'},
+];
+function renderGrid(){
+  const grid = document.getElementById('gameGrid');
+  grid.innerHTML = '';
+  GAMES.forEach(g=>{
+    const c = document.createElement('div');
+    c.className = 'card';
+    c.style.setProperty('--cardAccent', g.accent);
+    c.innerHTML = `<div class="badge">${g.badge}</div><h4>${g.name}</h4><p>${g.desc}</p><div class="go">Play →</div>`;
+    c.onclick = ()=> openGame(g.id, g.name);
+    grid.appendChild(c);
+  });
+}
+
+/* ---------------- Word Search (daily-rotating word sets) ---------------- */
+const WS_SETS_POOL = {
+  beginner: [
+    {size:8, words:['CAT','DOG','SUN','TREE','BOOK']},
+    {size:8, words:['FISH','BIRD','MOON','STAR','LEAF']},
+    {size:8, words:['CAKE','RAIN','FROG','KITE','SHOE']},
+    {size:8, words:['BALL','DUCK','GATE','LAMP','ROPE']},
+  ],
+  intermediate: [
+    {size:10, words:['MUSHROOM','ANIMATION','PUZZLE','MEMORY','CITIZEN']},
+    {size:10, words:['DINOSAUR','JOURNEY','CRYSTAL','VOLCANO','HARVEST']},
+    {size:10, words:['ELEPHANT','FESTIVAL','GLACIER','ORCHARD','WHISPER']},
+    {size:10, words:['CARAVAN','LANTERN','MERIDIAN','PLATEAU','TUNNEL']},
+  ],
+  advanced: [
+    {size:12, words:['PERSPICACIOUS','METHODICAL','VERDANT','AUTHENTICATION','UBIQUITOUS']},
+    {size:12, words:['EBULLIENT','TACITURN','RESILIENCE','METAMORPHOSIS','CONUNDRUM']},
+    {size:12, words:['SERENDIPITY','JUXTAPOSITION','EQUILIBRIUM','PARADIGM','ENIGMATIC']},
+    {size:12, words:['CACOPHONY','LABYRINTHINE','QUINTESSENCE','VICISSITUDE','OBFUSCATE']},
+  ],
+};
+function todaysWordSearchSet(){
+  const pool = WS_SETS_POOL[profile.level];
+  return pool[dayIndexFor(pool.length)];
+}
+function buildWordSearch(size, words){
+  const grid = Array.from({length:size}, ()=>Array(size).fill(null));
+  const dirs = [[0,1],[1,0],[1,1],[1,-1],[0,-1],[-1,0],[-1,-1],[-1,1]];
+  const sorted = [...words].sort((a,b)=>b.length-a.length);
+  sorted.forEach(word=>{
+    let placed=false, tries=300;
+    while(!placed && tries-->0){
+      const dir = dirs[Math.floor(Math.random()*dirs.length)];
+      const r0 = Math.floor(Math.random()*size), c0 = Math.floor(Math.random()*size);
+      const r1 = r0 + dir[0]*(word.length-1), c1 = c0 + dir[1]*(word.length-1);
+      if(r1<0||r1>=size||c1<0||c1>=size) continue;
+      let ok=true;
+      for(let i=0;i<word.length;i++){
+        const r=r0+dir[0]*i, c=c0+dir[1]*i;
+        if(grid[r][c] !== null && grid[r][c] !== word[i]){ ok=false; break; }
+      }
+      if(!ok) continue;
+      for(let i=0;i<word.length;i++){
+        const r=r0+dir[0]*i, c=c0+dir[1]*i;
+        grid[r][c] = word[i];
+      }
+      placed=true;
+    }
+  });
+  const AZ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for(let r=0;r<size;r++) for(let c=0;c<size;c++) if(grid[r][c]===null) grid[r][c]=AZ[Math.floor(Math.random()*26)];
+  return grid;
+}
+function RENDER_wordsearch(body){
+  const set = todaysWordSearchSet();
+  const size = set.size;
+  const grid = buildWordSearch(size, set.words);
+  const found = new Set();
+  body.innerHTML = `
+    <div class="ws-grid" id="wsGrid" style="grid-template-columns:repeat(${size},1fr)"></div>
+    <div class="ws-words" id="wsWords">${set.words.map(w=>`<span data-w="${w}">${w}</span>`).join('')}</div>
+    <div class="feedback" id="wsFeedback"></div>
+  `;
+  const wsGrid = document.getElementById('wsGrid');
+  const cellEls = [];
+  for(let r=0;r<size;r++){
+    cellEls.push([]);
+    for(let c=0;c<size;c++){
+      const d = document.createElement('div');
+      d.className='ws-cell'; d.textContent = grid[r][c];
+      d.dataset.r=r; d.dataset.c=c;
+      wsGrid.appendChild(d);
+      cellEls[r].push(d);
+    }
+  }
+  let dragging=false, start=null, path=[];
+  function clearSel(){ path.forEach(([r,c])=>{ if(!cellEls[r][c].classList.contains('found')) cellEls[r][c].classList.remove('sel'); }); path=[]; }
+  function pathBetween(r0,c0,r1,c1){
+    const dr = Math.sign(r1-r0), dc = Math.sign(c1-c0);
+    if(!(dr===0 || dc===0 || Math.abs(r1-r0)===Math.abs(c1-c0))) return null;
+    const len = Math.max(Math.abs(r1-r0), Math.abs(c1-c0)) + 1;
+    const p=[];
+    for(let i=0;i<len;i++) p.push([r0+dr*i, c0+dc*i]);
+    return p;
+  }
+  function cellAt(x,y){
+    const el = document.elementFromPoint(x,y);
+    if(el && el.classList.contains('ws-cell')) return el;
+    return null;
+  }
+  function onDown(r,c){ dragging=true; start=[r,c]; clearSel(); path=[[r,c]]; cellEls[r][c].classList.add('sel'); }
+  function onMove(r,c){
+    if(!dragging) return;
+    const np = pathBetween(start[0],start[1],r,c);
+    if(!np) return;
+    clearSel(); path=np; path.forEach(([rr,cc])=>cellEls[rr][cc].classList.add('sel'));
+  }
+  function finalize(){
+    if(!dragging) return;
+    dragging=false;
+    const str = path.map(([r,c])=>grid[r][c]).join('');
+    const rev = str.split('').reverse().join('');
+    const match = set.words.find(w=> (w===str || w===rev) && !found.has(w));
+    if(match){
+      found.add(match);
+      path.forEach(([r,c])=>{ cellEls[r][c].classList.remove('sel'); cellEls[r][c].classList.add('found'); });
+      document.querySelector(`#wsWords span[data-w="${match}"]`).classList.add('done');
+      if(found.size === set.words.length){
+        document.getElementById('wsFeedback').textContent = 'All words found! +' + (set.words.length*10) + ' points 🎉';
+        document.getElementById('wsFeedback').className='feedback good';
+        addScore(set.words.length*10);
+      }
+    } else {
+      clearSel();
+    }
+  }
+  cellEls.flat().forEach(el=>{
+    el.addEventListener('mousedown', ()=>onDown(+el.dataset.r,+el.dataset.c));
+    el.addEventListener('mouseenter', ()=>onMove(+el.dataset.r,+el.dataset.c));
+    el.addEventListener('touchstart', e=>{ e.preventDefault(); onDown(+el.dataset.r,+el.dataset.c); }, {passive:false});
+  });
+  document.addEventListener('mouseup', finalize);
+  wsGrid.addEventListener('touchmove', e=>{
+    e.preventDefault();
+    const t = e.touches[0];
+    const el = cellAt(t.clientX, t.clientY);
+    if(el) onMove(+el.dataset.r, +el.dataset.c);
+  }, {passive:false});
+  wsGrid.addEventListener('touchend', finalize);
+}
+
+/* ---------------- Go Figure (daily-featured puzzle) ---------------- */
+const GF_SETS = {
+  beginner: [
+    {nums:[2,3,4], target:9}, {nums:[5,2,3], target:13}, {nums:[6,1,4], target:9},
+    {nums:[3,3,2], target:8}, {nums:[7,2,1], target:6}, {nums:[4,4,3], target:5},
+  ],
+  intermediate: [
+    {nums:[1,3,5,5], target:2}, {nums:[4,2,6,3], target:11}, {nums:[7,2,3,1], target:12},
+    {nums:[5,5,2,4], target:16}, {nums:[8,3,2,6], target:9}, {nums:[6,4,1,3], target:21},
+  ],
+  advanced: [
+    {nums:[6,7,2,8], target:48}, {nums:[9,3,4,2], target:20}, {nums:[8,5,2,6], target:33},
+    {nums:[7,6,3,9], target:42}, {nums:[5,8,4,2], target:19}, {nums:[9,6,7,3], target:60},
+  ],
+};
+let gfIndex = 0;
+let gfIndexSetForLevel = null;
+function RENDER_gofigure(body){
+  const list = GF_SETS[profile.level];
+  if(gfIndexSetForLevel !== profile.level){
+    gfIndex = dayIndexFor(list.length);
+    gfIndexSetForLevel = profile.level;
+  }
+  draw();
+  function draw(){
+    const puzzle = list[gfIndex];
+    const n = puzzle.nums.length;
+    const isToday = gfIndex === dayIndexFor(list.length);
+    let html = `<p><b>${isToday ? "Today's challenge" : 'Bonus puzzle'}</b> — place the numbers in order and choose an operator for each gap, worked left to right, no order-of-operations tricks.</p><div class="gf-row">`;
+    for(let i=0;i<n;i++){
+      html += `<div class="gf-box">${puzzle.nums[i]}</div>`;
+      if(i<n-1){
+        html += `<select class="gf-op" id="gfOp${i}">
+          <option value="+">+</option><option value="-">−</option><option value="*">×</option><option value="/">÷</option>
+        </select>`;
+      }
+    }
+    html += `<span class="gf-target">= ${puzzle.target}</span></div>
+      <div class="row-actions">
+        <button class="btn" id="gfCheck">Check</button>
+        <button class="btn secondary" id="gfNext">New puzzle</button>
+      </div>
+      <div class="feedback" id="gfFeedback"></div>`;
+    body.innerHTML = html;
+    document.getElementById('gfCheck').onclick = ()=>{
+      let result = puzzle.nums[0];
+      for(let i=0;i<n-1;i++){
+        const op = document.getElementById('gfOp'+i).value;
+        const b = puzzle.nums[i+1];
+        if(op==='+') result += b;
+        else if(op==='-') result -= b;
+        else if(op==='*') result *= b;
+        else if(op==='/') result = b!==0 ? result/b : NaN;
+      }
+      const fb = document.getElementById('gfFeedback');
+      if(Math.abs(result - puzzle.target) < 1e-9){
+        fb.textContent = 'Correct! +15 points 🔥'; fb.className='feedback good'; addScore(15);
+      } else {
+        fb.textContent = `That makes ${Number.isFinite(result)?Math.round(result*100)/100:'—'}, not ${puzzle.target}. Try different operators.`; fb.className='feedback bad';
+      }
+    };
+    document.getElementById('gfNext').onclick = ()=>{ gfIndex = (gfIndex+1) % list.length; draw(); };
+  }
+}
+
+/* ---------------- Mini Sudoku (daily digit-shift = genuinely new valid grid) ---------------- */
+const SUDOKU = {
+  beginner: {
+    size:4, box:[2,2],
+    solution:[[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]],
+    puzzle:  [[1,0,3,0],[0,4,0,2],[2,0,4,0],[0,3,0,1]],
+  },
+  intermediate: {
+    size:6, box:[2,3],
+    solution:[[1,2,3,4,5,6],[4,5,6,1,2,3],[2,3,1,5,6,4],[5,6,4,2,3,1],[3,4,5,6,1,2],[6,1,2,3,4,5]],
+    puzzle:  [[1,0,3,0,5,0],[0,5,0,1,0,3],[2,0,1,0,6,0],[0,6,0,2,0,1],[3,0,5,0,1,0],[0,1,0,3,0,5]],
+  },
+  advanced: {
+    size:9, box:[3,3],
+    solution:[
+      [5,3,4,6,7,8,9,1,2],[6,7,2,1,9,5,3,4,8],[1,9,8,3,4,2,5,6,7],
+      [8,5,9,7,6,1,4,2,3],[4,2,6,8,5,3,7,9,1],[7,1,3,9,2,4,8,5,6],
+      [9,6,1,5,3,7,2,8,4],[2,8,7,4,1,9,6,3,5],[3,4,5,2,8,6,1,7,9]
+    ],
+    puzzle:[
+      [5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],
+      [8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],
+      [0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]
+    ],
+  },
+};
+function shiftGrid(grid, shift, size){
+  return grid.map(row => row.map(v => v===0 ? 0 : ((v - 1 + shift) % size) + 1));
+}
+function RENDER_sudoku(body){
+  const cfg = SUDOKU[profile.level];
+  const size = cfg.size;
+  const shift = dayIndexFor(size);
+  const puzzle = shiftGrid(cfg.puzzle, shift, size);
+  const solution = shiftGrid(cfg.solution, shift, size);
+  body.innerHTML = `
+    <p><b>Today's grid</b> — fill in the blanks. Every row, column and block needs each number exactly once.</p>
+    <div class="su-grid" id="suGrid" style="grid-template-columns:repeat(${size},1fr)"></div>
+    <div class="row-actions"><button class="btn" id="suCheck">Check</button></div>
+    <div class="feedback" id="suFeedback"></div>
+  `;
+  const suGrid = document.getElementById('suGrid');
+  const inputs = [];
+  for(let r=0;r<size;r++){
+    inputs.push([]);
+    for(let c=0;c<size;c++){
+      const val = puzzle[r][c];
+      const inp = document.createElement('input');
+      inp.className = 'su-cell' + (val? ' given':'');
+      inp.maxLength=1; inp.inputMode='numeric';
+      if(val){ inp.value=val; inp.disabled=true; }
+      suGrid.appendChild(inp);
+      inputs[r].push(inp);
+      inp.addEventListener('input', ()=>{ inp.value = inp.value.replace(/[^1-9]/g,'').slice(0,1); });
+    }
+  }
+  document.getElementById('suCheck').onclick = ()=>{
+    let allCorrect = true, allFilled = true;
+    for(let r=0;r<size;r++) for(let c=0;c<size;c++){
+      const inp = inputs[r][c];
+      if(!inp.value){ allFilled=false; inp.classList.remove('right','wrong'); continue; }
+      const correct = (+inp.value === solution[r][c]);
+      inp.classList.toggle('right', correct);
+      inp.classList.toggle('wrong', !correct);
+      if(!correct) allCorrect = false;
+    }
+    const fb = document.getElementById('suFeedback');
+    if(!allFilled){ fb.textContent='Fill every cell, then check again.'; fb.className='feedback bad'; }
+    else if(allCorrect){ fb.textContent='Solved it! +25 points 🎉'; fb.className='feedback good'; addScore(25); }
+    else { fb.textContent='A few numbers are off — check the highlighted cells.'; fb.className='feedback bad'; }
+  };
+}
+
+/* ---------------- Quiz banks (Idiom / Fact-or-Faux / Riddle / Emoji) ---------------- */
+const QUIZ = {
+  idiom: {
+    beginner:[
+      {q:'What does "piece of cake" mean?', opts:['Something very easy','A tasty dessert','A small mistake'], a:0, e:'It describes a task that is very easy to do.'},
+      {q:'What does "break the ice" mean?', opts:['To end a friendship','To start a conversation in an awkward setting','To cancel plans'], a:1, e:'Used when someone eases tension at the start of a social situation.'},
+      {q:'What does "under the weather" mean?', opts:['Feeling unwell','Very happy','Outdoors in the rain'], a:0, e:'A common way to say you are feeling slightly ill.'},
+      {q:'What does "hit the books" mean?', opts:['To study hard','To donate old books','To read for fun only'], a:0, e:'Used when someone is about to study seriously, often before an exam.'},
+      {q:'What does "let the cat out of the bag" mean?', opts:['To adopt a pet','To reveal a secret','To make a mess'], a:1, e:'Used when a secret is accidentally or deliberately revealed.'},
+    ],
+    intermediate:[
+      {q:'What does "mutton dressed as lamb" mean?', opts:['An older person dressing in a much younger style','A tough negotiation','A dish gone wrong'], a:0, e:'Describes someone dressing or acting younger than their age, often critically.'},
+      {q:'What does "bite the bullet" mean?', opts:['To avoid a problem','To face something difficult with courage','To get angry quickly'], a:1, e:'To endure a painful or unpleasant situation that is unavoidable.'},
+      {q:'What does "costs an arm and a leg" mean?', opts:['Very expensive','A physical injury','A fair price'], a:0, e:'Used to describe something extremely costly.'},
+      {q:'What does "spill the beans" mean?', opts:['To make a cooking mistake','To reveal secret information','To lose your temper'], a:1, e:'Used when someone reveals information that was meant to stay private.'},
+      {q:'What does "burn the midnight oil" mean?', opts:['To waste resources','To work or study late into the night','To start a fire accidentally'], a:1, e:'Refers to staying up late working, from the days of oil lamps.'},
+    ],
+    advanced:[
+      {q:'What does "cut from the same cloth" mean?', opts:['Very different people','Sharing the same qualities or character','Made from recycled materials'], a:1, e:'Describes people who are very similar in nature or character.'},
+      {q:'What does "a storm in a teacup" mean?', opts:['A minor issue blown out of proportion','A sudden weather change','A well-planned event'], a:0, e:'Used when a small problem is treated as a much bigger deal than it is.'},
+      {q:'What does "a skeleton in the closet" mean?', opts:['An old family heirloom','A hidden, often embarrassing secret','A well organised plan'], a:1, e:'Refers to a secret, usually shameful, that someone wants to keep hidden.'},
+      {q:'What does "a wolf in sheep\'s clothing" mean?', opts:['Someone dangerous disguised as harmless','A skilled shepherd','A costume for a party'], a:0, e:'Describes someone whose harmless appearance hides bad intentions.'},
+      {q:'What does "rest on one\'s laurels" mean?', opts:['To take a long vacation','To stop trying after an early success','To plant a garden'], a:1, e:'Used when someone becomes complacent after achieving something, instead of continuing to work hard.'},
+    ],
+  },
+  factfaux:{
+    beginner:[
+      {q:'Spot the fake fact:', opts:['Octopuses have three hearts','Bats are blind','Honey never spoils','A group of lions is called a pride'], a:1, e:'Bats are not blind — most species can see, and many also use echolocation.'},
+      {q:'Spot the fake fact:', opts:['Sharks existed before trees','Goldfish have a three-second memory','Bananas are berries','A snail can sleep for three years'], a:1, e:'Goldfish actually remember things for months, not just three seconds.'},
+      {q:'Spot the fake fact:', opts:["A shrimp's heart is in its head","Cows have four stomach compartments","Owls can turn their heads a full 360 degrees","An ostrich can run faster than a horse"], a:2, e:"Owls can't turn their heads a full 360° — they max out around 270°, though it looks dramatic."},
+      {q:'Spot the fake fact:', opts:['A group of flamingos is called a flamboyance','Butterflies taste with their feet','Elephants are the only mammals that can\'t jump','Kangaroos can walk backwards'], a:3, e:"Kangaroos physically can't walk backwards — their tail and leg structure only allow forward movement."},
+      {q:'Spot the fake fact:', opts:['Polar bears have black skin','A jiffy is an actual unit of time','Cats always land on their feet, no exceptions','The dot over a lowercase "i" is called a tittle'], a:2, e:"Cats usually land on their feet, but not always — height, surprise, or injury can prevent the reflex from working."},
+    ],
+    intermediate:[
+      {q:'Spot the fake fact:', opts:['Some seabirds steal food straight from other birds instead of catching it themselves','Penguins organise strategic heists with getaway rafts, leaving behind a calling card of a single frozen fish','Certain monkeys have been known to snatch items from tourists and trade them for food','Cuckoo birds lay their eggs in other birds\' nests, leaving someone else to raise their chicks'], a:1, e:'Penguins do not organise heists — that detail is invented, unlike the other documented animal behaviours.'},
+      {q:'Spot the fake fact:', opts:['Honeybees communicate direction through a "waggle dance"','Elephants can recognise themselves in a mirror','Crows can hold grudges against specific people','Chameleons change colour mainly to match any background they see'], a:3, e:'Chameleons mostly change colour for temperature control and communication, not simple camouflage matching.'},
+      {q:'Spot the fake fact:', opts:['Octopuses have blue blood','A day on Venus is longer than its year','Bananas grow on trees','Lightning never strikes the same place twice'], a:2, e:'Bananas grow on giant herbaceous plants, not trees — the "trunk" is made of tightly wrapped leaf sheaths.'},
+      {q:'Spot the fake fact:', opts:['Honey found in ancient Egyptian tombs is still edible','The Eiffel Tower grows slightly taller in summer heat','Human blood is sometimes blue while inside your veins','Wombats sleep for around 16 hours a day'], a:2, e:'Human blood is always red, never blue — veins just look blue through skin due to how light is absorbed and reflected.'},
+      {q:'Spot the fake fact:', opts:['Sea otters hold hands while sleeping so they don\'t drift apart','A blue whale\'s heart can weigh as much as a small car','Great white sharks are the ocean\'s deadliest predator to humans by far','Some turtles can breathe partly through their skin'], a:2, e:'Statistically, mosquitoes and even cows cause more human deaths per year than great white sharks — their reputation outpaces the numbers.'},
+    ],
+    advanced:[
+      {q:'Spot the fake fact:', opts:['Octopuses can taste through their arms','The Great Wall of China is visible from space with the naked eye','Sloths can hold their breath longer than dolphins','Wombat droppings are cube-shaped'], a:1, e:'The Great Wall is not actually visible from space with the naked eye — a persistent myth.'},
+      {q:'Spot the fake fact:', opts:['Venus rotates in the opposite direction to most planets','Mercury has a longer year than its day','Saturn could float in water because it is less dense','The Moon is slowly moving away from Earth every year'], a:1, e:'It\'s reversed: a day on Mercury is actually longer than its year, since it orbits the Sun faster than it spins.'},
+      {q:'Spot the fake fact:', opts:['Antarctica is technically the largest desert on Earth','Napoleon Bonaparte was unusually short for his era','The human body contains enough iron to make a small nail','Table sugar and table salt have similarly shaped crystal structures'], a:1, e:'Napoleon was actually about average height for a Frenchman of his time — the "short" myth came from a mix-up between French and English measurement units.'},
+      {q:'Spot the fake fact:', opts:['Sound travels faster in water than in air','The Sahara was once a lush, green landscape','A single bolt of lightning is hotter than the surface of the sun','Diamonds are the rarest gemstone on Earth'], a:3, e:'Several gemstones, like red beryl, are rarer than diamonds — diamonds are simply marketed more heavily.'},
+      {q:'Spot the fake fact:', opts:['Some metals are liquid at room temperature','Venus is the hottest planet in the solar system','The Great Barrier Reef is visible from the Moon with the naked eye','Bamboo can grow nearly a metre in a single day'], a:2, e:"The Great Barrier Reef isn't visible from the Moon with the naked eye — that claim, like the Great Wall one, is a persistent myth."},
+    ],
+  },
+  riddle:{
+    beginner:[
+      {q:'What has hands but cannot clap?', opts:['A clock','A glove','A tree'], a:0, e:'A clock has hands (the pointers) but obviously cannot clap them together.'},
+      {q:'What has a face and two hands but no arms or legs?', opts:['A doll','A clock','A mirror'], a:1, e:'Same idea — a clock face with hour and minute hands.'},
+      {q:'What gets wetter the more it dries?', opts:['A towel','A sponge','A cloud'], a:0, e:'A towel absorbs water as it dries other things, so it gets wetter itself.'},
+      {q:'What has to be broken before you can use it?', opts:['An egg','A promise','A rule'], a:0, e:'An egg needs to be cracked open before you can cook or eat it.'},
+      {q:'What has one eye but cannot see?', opts:['A needle','A storm','A potato'], a:0, e:'A sewing needle has an "eye" (the hole for thread) but no vision.'},
+    ],
+    intermediate:[
+      {q:'Say my name and I disappear. What am I?', opts:['Silence','A whisper','A shadow'], a:0, e:'The moment you say the word "silence" out loud, silence is broken.'},
+      {q:'The more you take, the more you leave behind. What am I?', opts:['Time','Footsteps','Money'], a:1, e:'Every step you take leaves a footprint behind.'},
+      {q:'What can travel around the world while staying in a corner?', opts:['A stamp','A map','A compass'], a:0, e:'A postage stamp sits in the corner of an envelope as it travels the world.'},
+      {q:'I am not alive, but I grow; I don\'t have lungs, but I need air. What am I?', opts:['Fire','A plant','A shadow'], a:0, e:'Fire spreads and grows, and needs oxygen to keep burning, but it isn\'t alive.'},
+      {q:'What comes once in a minute, twice in a moment, but never in a thousand years?', opts:['The letter M','A second','A heartbeat'], a:0, e:'The letter "M" appears once in "minute," twice in "moment," and zero times in "thousand years."'},
+    ],
+    advanced:[
+      {q:'I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?', opts:['An echo','A ghost','A radio'], a:0, e:'An echo repeats sound and seems to "hear" and "speak", carried by air.'},
+      {q:'The person who makes it, sells it. The person who buys it never uses it. The person who uses it never knows. What is it?', opts:['A coffin','A key','A map'], a:0, e:'A classic riddle — a coffin is made and sold, but the person who eventually uses it isn\'t aware.'},
+      {q:'What has many keys but can\'t open a single lock?', opts:['A piano','A map','A dictionary'], a:0, e:'A piano has many keys, but they play music, not open locks.'},
+      {q:'What can fill a room but takes up no space?', opts:['Light','Sound','Smell'], a:0, e:'Light fills a room instantly without occupying any physical space itself.'},
+      {q:'Forward I am heavy, backward I am not. What am I?', opts:['The word "ton"','A boulder','A shadow'], a:0, e:'"Ton" spelled backward is "not" — a classic wordplay riddle.'},
+    ],
+  },
+  emoji:{
+    beginner:[
+      {q:'🐱 + 🐶 + 🌧️ = ?', opts:["It's raining cats and dogs","Pets don't like rain","A stormy walk"], a:0, e:'A classic emoji idiom for very heavy rain.'},
+      {q:'💡 + 🧠 = ?', opts:['A bright idea','Genius mode','Smart bulb'], a:0, e:'Lightbulb + brain = a sudden flash of insight.'},
+      {q:'🎂 + 🍰 = ?', opts:['Piece of cake','Happy birthday','Sweet tooth'], a:1, e:'Cake plus a slice of cake usually points to a birthday celebration.'},
+      {q:'❄️ + ⛄ = ?', opts:['Snowman','Cold day','Winter break'], a:0, e:'Snowflake plus a snow figure spells out snowman, fairly literally.'},
+      {q:'🌈 + 🍀 = ?', opts:['Good luck','Pot of gold','Lucky charm'], a:0, e:'Rainbow plus a four-leaf clover both point to good luck.'},
+    ],
+    intermediate:[
+      {q:'🦵 + 🍞 = ?', opts:['Break a leg','Step on toast','Kick the bread'], a:0, e:'Leg + break(bread) hints at the idiom "break a leg," meaning good luck.'},
+      {q:'🐘 + 🏠 = ?', opts:['The elephant in the room','A big house','Zoo keeper'], a:0, e:'Elephant + room = the idiom for an obvious issue nobody wants to address.'},
+      {q:'🕰️ + 💰 = ?', opts:['Time is money','Old money','Clock watching'], a:0, e:'Clock plus money spells out the idiom "time is money."'},
+      {q:'🐟 + 🍟 = ?', opts:['Fish and chips','Something fishy','Catch of the day'], a:0, e:'A fairly literal one — fish plus fries reads as fish and chips.'},
+      {q:'🎯 + 👁️ = ?', opts:['On the right track','Bullseye','Eye on the prize'], a:2, e:'Target plus eye points to "keeping an eye on the prize."'},
+    ],
+    advanced:[
+      {q:'🌪️ + ☕ = ?', opts:['A storm in a teacup','Wild weather','Tea time trouble'], a:0, e:'Storm + teacup = a small issue blown out of proportion. Recognise it from Idiom IQ?'},
+      {q:'🦴 + 🚪👗 = ?', opts:['A skeleton in the closet','Bone dry humour','Closet cleanup'], a:0, e:'Skeleton + closet = a hidden, usually embarrassing, secret.'},
+      {q:'🧊 + 💔 = ?', opts:['Cold shoulder','Ice breaker','Heartbroken'], a:0, e:'Ice plus a broken heart hints at "giving someone the cold shoulder."'},
+      {q:'🐍 + 👖 = ?', opts:['Snake in the grass','Snakes in pants','Sneaky move'], a:0, e:'A hidden snake loosely points to "a snake in the grass" — someone secretly untrustworthy.'},
+      {q:'🦶 + 🚪 = ?', opts:['Foot in the door','Step outside','Doorstep'], a:0, e:'Foot plus door = the idiom "getting a foot in the door," a first small opportunity.'},
+    ],
+  },
+};
+function RENDER_quiz(bankName, pointsEach){
+  return function(body){
+    const base = QUIZ[bankName][profile.level];
+    const start = dayIndexFor(base.length);
+    const list = base.slice(start).concat(base.slice(0, start));
+    let idx = 0, sessionScore = 0;
+    draw();
+    function draw(){
+      const item = list[idx];
+      const showOptions = item.opts && item.opts.length > 1 && bankName !== 'riddle';
+      body.innerHTML = `
+        <div class="qmeta">Today's set — question ${idx+1} of ${list.length} — think it through, then flip the card</div>
+        <div class="q-text">${item.q}</div>
+        ${showOptions ? `<ul class="opt-list">${item.opts.map((o,i)=>`<li><b>${String.fromCharCode(65+i)}</b>${o}</li>`).join('')}</ul>` : ''}
+        <div class="answer-wrap">
+          <div class="answer-hint">🙈 Answer printed upside down, just like the paper — tap when you're ready.</div>
+          <div class="answer-card" id="answerCard">
+            <span class="peek">Answer</span>${item.opts && item.opts[item.a] ? item.opts[item.a] : item.e.split('.')[0]}
+          </div>
+          <div class="explain" id="explain" style="display:none;">${item.e}</div>
+        </div>
+        <div class="self-grade" id="selfGrade">
+          <button class="grade-btn" id="gotIt">I had it right ✅</button>
+          <button class="grade-btn" id="missedIt">Missed it, next time ❌</button>
+        </div>
+        <div class="row-actions">
+          <button class="btn secondary" id="nextQ" style="display:none;">Next</button>
+        </div>
+      `;
+      const card = document.getElementById('answerCard');
+      card.onclick = ()=>{
+        if(card.classList.contains('shown')) return;
+        card.classList.add('shown');
+        document.getElementById('explain').style.display='block';
+        document.getElementById('selfGrade').classList.add('show');
+      };
+      document.getElementById('gotIt').onclick = (e)=>{
+        sessionScore += pointsEach; addScore(pointsEach);
+        e.target.classList.add('hit');
+        document.getElementById('gotIt').disabled = true;
+        document.getElementById('missedIt').disabled = true;
+        revealNext();
+      };
+      document.getElementById('missedIt').onclick = ()=>{
+        document.getElementById('gotIt').disabled = true;
+        document.getElementById('missedIt').disabled = true;
+        revealNext();
+      };
+      function revealNext(){
+        if(idx < list.length-1) document.getElementById('nextQ').style.display='inline-block';
+        else {
+          const done = document.createElement('div');
+          done.className='feedback good';
+          done.textContent = `Round complete — ${sessionScore} points earned.`;
+          body.appendChild(done);
+        }
+      }
+      document.getElementById('nextQ').onclick = ()=>{ idx++; draw(); };
+    }
+  };
+}
+
+/* ---------------- Flashback (memory sequence game) ---------------- */
+const FLASH_CFG = {
+  beginner: {tiles:4, cols:2, flashMs:650, gapMs:280},
+  intermediate: {tiles:6, cols:3, flashMs:500, gapMs:220},
+  advanced: {tiles:9, cols:3, flashMs:380, gapMs:170},
+};
+const TILE_COLORS = ['#FF3EA5','#3EE8FF','#C6FF4D','#FF8A3D','#B14CFF','#FFD93E','#FF6161','#4DFFA0','#5B8CFF'];
+function RENDER_flashback(body){
+  const cfg = FLASH_CFG[profile.level];
+  const n = cfg.tiles;
+  let seq = [], step = 0, round = 0, locked = true;
+  body.innerHTML = `
+    <p>Watch the tiles light up, then tap them back in the same order. One slip ends the run.</p>
+    <div class="fb-meta">
+      <span class="fb-chip" id="fbRound">Round: 0</span>
+      <button class="btn" id="fbStart">Start</button>
+    </div>
+    <div class="fb-grid locked" id="fbGrid" style="grid-template-columns:repeat(${cfg.cols},1fr)"></div>
+    <div class="feedback" id="fbFeedback"></div>
+  `;
+  const grid = document.getElementById('fbGrid');
+  const tiles = [];
+  for(let i=0;i<n;i++){
+    const t = document.createElement('div');
+    t.className = 'fb-tile';
+    t.style.background = TILE_COLORS[i % TILE_COLORS.length];
+    t.dataset.i = i;
+    grid.appendChild(t);
+    tiles.push(t);
+  }
+  function setLocked(v){ locked = v; grid.classList.toggle('locked', v); }
+  function playSequence(){
+    setLocked(true);
+    let i = 0;
+    const timer = setInterval(()=>{
+      tiles.forEach(t=>t.classList.remove('lit'));
+      if(i < seq.length){
+        const idx = seq[i];
+        tiles[idx].classList.add('lit');
+        setTimeout(()=>{ if(tiles[idx]) tiles[idx].classList.remove('lit'); }, cfg.flashMs*0.7);
+        i++;
+      } else {
+        clearInterval(timer);
+        setLocked(false);
+        step = 0;
+      }
+    }, cfg.flashMs + cfg.gapMs);
+  }
+  function startRound(){
+    round++;
+    seq.push(Math.floor(Math.random()*n));
+    document.getElementById('fbRound').textContent = 'Round: ' + round;
+    document.getElementById('fbFeedback').textContent = '';
+    document.getElementById('fbFeedback').className = 'feedback';
+    setTimeout(playSequence, 400);
+  }
+  document.getElementById('fbStart').onclick = (e)=>{
+    seq = []; round = 0; step = 0;
+    e.target.textContent = 'Restart';
+    startRound();
+  };
+  tiles.forEach(t=>{
+    t.addEventListener('click', ()=>{
+      if(locked || seq.length===0) return;
+      const i = +t.dataset.i;
+      t.classList.add('lit');
+      setTimeout(()=>t.classList.remove('lit'), 180);
+      if(i === seq[step]){
+        step++;
+        if(step === seq.length){
+          document.getElementById('fbFeedback').textContent = 'Nice! Round cleared — next one incoming.';
+          document.getElementById('fbFeedback').className = 'feedback good';
+          setTimeout(startRound, 700);
+        }
+      } else {
+        setLocked(true);
+        const pts = Math.max(0, (round-1) * 5);
+        document.getElementById('fbFeedback').textContent = `Run over — reached round ${round}. +${pts} points`;
+        document.getElementById('fbFeedback').className = 'feedback bad';
+        if(pts>0) addScore(pts);
+        document.getElementById('fbStart').textContent = 'Play again';
+      }
+    });
+  });
+}
+
+const RENDERERS = {
+  wordsearch: RENDER_wordsearch,
+  gofigure: RENDER_gofigure,
+  sudoku: RENDER_sudoku,
+  idiom: RENDER_quiz('idiom', 10),
+  factfaux: RENDER_quiz('factfaux', 10),
+  riddle: RENDER_quiz('riddle', 15),
+  flashback: RENDER_flashback,
+  emoji: RENDER_quiz('emoji', 10),
+};
+
+/* ---------------- Modal plumbing ---------------- */
+const overlay = document.getElementById('overlay');
+document.getElementById('modalClose').onclick = closeModal;
+overlay.onclick = (e)=>{ if(e.target===overlay) closeModal(); };
+function closeModal(){ overlay.classList.remove('open'); }
+function openGame(id, title){
+  document.getElementById('modalTitle').textContent = title;
+  const lv = LEVELS.find(l=>l.id===profile.level);
+  document.getElementById('modalLvlChip').textContent = lv.name + ' level';
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '';
+  overlay.classList.add('open');
+  RENDERERS[id](body);
+}
+
+/* ---------------- Coach tips (static — see note on live API) ---------------- */
+const COACH_TIPS = [
+  "In Word Scape, scan diagonals last — most people only check rows and columns first.",
+  "For Go Figure, try the biggest number first and work out what operation gets you closest to the target.",
+  "Sudoku tip: scan for rows or columns missing just one number — those are your easiest wins.",
+  "Riddles read literally — the answer is often hiding in a play on words, not a trick.",
+  "Streaks reset if you skip a day, but not if you play late — any time today keeps it alive.",
+  "Idioms make more sense once you picture the literal image behind them.",
+];
+document.getElementById('coachBtn').onclick = ()=>{
+  const card = document.getElementById('coachCard');
+  const showing = card.style.display === 'block';
+  if(showing){ card.style.display = 'none'; return; }
+  document.getElementById('coachTipText').textContent = COACH_TIPS[Math.floor(Math.random()*COACH_TIPS.length)];
+  card.style.display = 'block';
+};
+
+/* ---------------- Init ---------------- */
+(async function init(){
+  await loadProfile();
+  renderWordOfDay();
+  renderGrid();
+})();
+</script>
+</body>
+</html>
